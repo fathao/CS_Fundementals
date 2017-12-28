@@ -2,11 +2,16 @@
 class Node {
   constructor(data) {
     this.data = data;
+    this.prev = null;
     this.next = null;
   }
 
   hasNext() {
     return this.next !== null;
+  }
+
+  hasPrev() {
+    return this.prev !== null;
   }
 }
 
@@ -22,6 +27,8 @@ class LinkedList {
   append(data) {
     const newNode = new Node(data);
 
+    // remember node class has data, previous and next
+    
     if (this.isEmpty()) {
       this.head = newNode;
 
@@ -33,13 +40,16 @@ class LinkedList {
       }
       // at this time, node is tail
       node.next = newNode;
+      newNode.prev = node;
     }
   }
 
   prepend(data) {
     const newNode = new Node(data);
     newNode.next = this.head;
+    this.head.prev = newNode;
     this.head = newNode;
+    
   }
 
   insert(position, data) {
@@ -50,12 +60,20 @@ class LinkedList {
       // find the node before position
       let index = 0;
       let nodeB4Position = this.head;
-      while (nodeB4Position.hasNext() && index < position - 1) {
+      while (nodeB4Position.hasNext() && index < position) {
         nodeB4Position = nodeB4Position.next;
         index++;
       }
 
-      if (index < position - 1) {
+      while (nodeB4Position.hasNext()) {
+        index++;
+        if (index === position) {
+          break;
+        }
+        nodeB4Position = nodeB4Position.next;
+      }
+
+      if (index < position) {
         // position is greater than length, just append to last
         this.append(data);
       } else {
