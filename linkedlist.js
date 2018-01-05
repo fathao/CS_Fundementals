@@ -40,8 +40,6 @@ class LinkedList {
     this.head = null;
     this.tail = null;
     this.length = 0;
-    
-
   }
 
   isEmpty() {
@@ -99,31 +97,31 @@ class LinkedList {
   }
 
   delete(position) {
-    if (!this.isEmpty()) {
-      // if removing head
-      if (position === 0) {
-        const firstNode = this.head;
-        this.head = firstNode.next;
-        firstNode.next = null;
+    if (this.isEmpty() || this.position >= this.length) {
+      return null;
+    }
 
-      }else if (position === this.length - 1) {
-        const lastNode = this.tail;
-        this.tail = lastNode.prev;
-        lastNode.disconnect();
+    let nodeToRemove;
+    // if removing head
+    if (position === 0) {
+      nodeToRemove = this.head;
+      this.head = nodeToRemove.next;
 
-      } else if (position >= this.length) {
-        // position is outside of linkedlist, do nothing
-        console.error('Position is out of range. Nothing to delete.');
-      } else {
-        const node = this.head.advanceNode(position - 1);
-        const nodeNext = node.next;
-        const nodeNextNext = node.next.next;
-        node.connect(nodeNextNext);
-        nodeNext.disconnect();
-      }
+    } else if (position === this.length - 1) {
+      nodeToRemove = this.tail;
+      this.tail = nodeToRemove.prev;
+
+    } else {
+      const node = this.head.advanceNode(position - 1);
+      nodeToRemove = node.next;
+      const nodeNextNext = node.next.next;
+      node.connect(nodeNextNext);
     }
 
     this.length--;
+
+    nodeToRemove.disconnect();
+    return nodeToRemove.data;
   }
 
   find(data) {
