@@ -1,0 +1,8 @@
+{
+  "name": "cs_fundamentals",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "fathao <zihaozhen@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {}
+}
